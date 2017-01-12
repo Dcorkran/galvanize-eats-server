@@ -24,4 +24,18 @@ router.delete('/',function(req,res,next){
   res.json('Book Deleted');
 });
 
+router.get('/:id',function(req,res,next){
+  bookQueries.getOneBook(req.params.id)
+  .then((data)=>{
+    res.json(data)
+  })
+});
+
+router.put('/:id',function(req,res,next){
+  bookQueries.updateBook(req.params.id,req.body)
+  .then(()=>{
+    res.json('Book Updated');
+  });
+});
+
 module.exports = router;

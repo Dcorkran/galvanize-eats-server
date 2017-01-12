@@ -40,5 +40,21 @@ module.exports = {
       .where('id',id)
       .del();
     });
+  },
+  getOneBook: function(id){
+    return knex('book')
+    .innerJoin('book_author','book.id','book_author.id')
+    .innerJoin('author','book_author.id','author.id')
+    .where('book.id',id);
+  },
+  updateBook: function(id,body){
+    return knex('book')
+    .where('book.id',id)
+    .update({
+      'Book Title':body.title,
+      'Book Genre':body.genre,
+      'Book Description': body.description,
+      'Book Cover URL':body.img
+    });
   }
 };
