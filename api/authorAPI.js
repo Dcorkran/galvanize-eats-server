@@ -23,4 +23,18 @@ router.delete('/',function(req,res,next){
   });
 });
 
+router.get('/:id',function(req,res,next){
+  authorQueries.getOneAuthor(req.params.id)
+  .then((data)=>{
+    res.json(data);
+  });
+});
+
+router.put('/:id',function(req,res,next){
+  authorQueries.updateAuthor(req.params.id,req.body)
+  .then(()=>{
+    res.json('Book Updated');
+  });
+});
+
 module.exports = router;

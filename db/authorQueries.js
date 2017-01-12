@@ -39,5 +39,21 @@ module.exports = {
       .where('author_id',id[0])
       .del();
     });
+  },
+  getOneAuthor: function(id){
+    return knex('author')
+    .innerJoin('book_author','author.id','book_author.author_id')
+    .innerJoin('book','book_author.book_id','book.id')
+    .where('author.id',id);
+  },
+  updateAuthor: function(id,body){
+    return knex('author')
+    .where('author.id',id)
+    .update({
+      'First Name':body.fname,
+      'Last Name':body.lname,
+      'Biography': body.bio,
+      'Portrait URL':body.img
+    });
   }
 };
