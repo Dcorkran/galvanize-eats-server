@@ -9,4 +9,12 @@ router.get('/',function(req,res,next){
   });
 });
 
+router.post('/',function(req,res,next){
+  console.log('hitting');
+  queries.postBook(req.body)
+  .then((data)=>{
+    res.json(data);
+  });
+});
+
 module.exports = router;
