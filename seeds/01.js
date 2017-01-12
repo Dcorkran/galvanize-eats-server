@@ -1,10 +1,7 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex.raw('DELETE FROM "book_author"; ALTER SEQUENCE book_author_id_seq RESTART WITH 9')
-  .then(()=>{
-    return knex.raw('DELETE FROM "book"; ALTER SEQUENCE book_id_seq RESTART WITH 7')
-  })
+  return knex.raw('DELETE FROM "book"; ALTER SEQUENCE book_id_seq RESTART WITH 7')
   .then(()=>{
     return knex.raw('DELETE FROM "author"; ALTER SEQUENCE author_id_seq RESTART WITH 7')
   })
@@ -85,39 +82,6 @@ exports.seed = function(knex, Promise) {
           'Book Genre': 'JavaScript',
           'Book Description': `No matter how much experience you have with JavaScript, odds are you don’t fully understand the language. As part of the "You Don’t Know JS" series, this concise yet in-depth guide focuses on new asynchronous features and performance techniques—including Promises, generators, and Web Workers—that let you create sophisticated single-page web applications and escape callback hell in the process.`,
           'Book Cover URL': `https://s3-us-west-2.amazonaws.com/assessment-images/galvanize_reads/photos/async_and_performance.jpg`
-        }]),
-        knex('book_author').insert([{
-          id:1,
-          author_id:1,
-          book_id:1
-        },{
-          id:2,
-          author_id:5,
-          book_id:1
-        },{
-          id:3,
-          author_id:6,
-          book_id:1
-        },{
-          id:4,
-          author_id:2,
-          book_id:2
-        },{
-          id:5,
-          author_id:3,
-          book_id:3
-        },{
-          id:6,
-          author_id:4,
-          book_id:4
-        },{
-          id:7,
-          author_id:4,
-          book_id:5
-        },{
-          id:8,
-          author_id:4,
-          book_id:6
         }])
       ]);
     });
