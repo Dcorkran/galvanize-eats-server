@@ -16,7 +16,18 @@ module.exports = {
     .returning('id')
     .then((id)=>{
       // for multiple authors we will need to loop through an author array
-      return knex.raw(`INSERT INTO book_author (author_id,book_id) SELECT id,${id[0]} FROM author WHERE "First Name" = '${book.authorName}';`);
+      // use i for the lname later
+      if (typeof book.authors === 'object') {
+        let promises = book.authors.firstName.map((author,i)=>{
+          return knex.raw(`INSERT INTO book_author (author_id,book_id) SELECT id,${id[0]} FROM author WHERE "First Name" = '${author}';`);
+        });
+        return Promise.all(promises).then(()=>{
+          return 'Book Added';
+        });
+      } else {
+        return knex.raw(`INSERT INTO book_author (author_id,book_id) SELECT id,${id[0]} FROM author WHERE "First Name" = '${book.authors.firstName[0]}';`);
+      }
+
     });
   }
 };

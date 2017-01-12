@@ -1,17 +1,19 @@
 var express = require('express');
 var router = express.Router();
-var queries = require('../db/bookQueries');
+var bookQueries = require('../db/bookQueries');
+var apiFunctions = require('./apiFunctions');
 
 router.get('/',function(req,res,next){
-  queries.getAllBooks()
+  bookQueries.getAllBooks()
   .then((data)=>{
     res.json(data);
   });
 });
 
 router.post('/',function(req,res,next){
-  console.log('hitting');
-  queries.postBook(req.body)
+  let bookData = req.body;
+  bookData.authors = apiFunctions.cleanAuthorName(bookData.authors);
+  bookQueries.postBook(bookData)
   .then((data)=>{
     res.json(data);
   });
