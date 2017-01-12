@@ -37,7 +37,7 @@ module.exports = {
     .returning('id')
     .then((id)=>{
       return knex('book_author')
-      .where('id',id)
+      .where('book_id',id[0])
       .del();
     });
   },

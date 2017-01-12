@@ -16,4 +16,11 @@ router.post('/',function(req,res,next){
   });
 });
 
+router.delete('/',function(req,res,next){
+  authorQueries.deleteAuthor(req.body.id)
+  .then((data)=>{
+    res.json(data);
+  });
+});
+
 module.exports = router;

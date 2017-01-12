@@ -5,7 +5,6 @@ module.exports = {
     return knex('author')
   },
   postAuthor: function(author){
-    console.log('hitting2',author);
     return knex('author')
     .insert({
       'First Name':author.fname,
@@ -18,7 +17,6 @@ module.exports = {
       // for multiple authors we will need to loop through an author array
       // use i for the lname later
       if (typeof author.books === 'object') {
-        console.log('many',author.books);
         let promises = author.books.title.map((book,i)=>{
           return knex.raw(`INSERT INTO book_author (author_id,book_id) SELECT ${id[0]},id FROM book WHERE "Book Title" = '${book}';`);
         });
@@ -26,10 +24,20 @@ module.exports = {
           return 'Book Added';
         });
       } else {
-        console.log('one',author.books.title);
         return knex.raw(`INSERT INTO book_author (author_id,book_id) SELECT ${id[0]},id FROM book WHERE "Book Title" = '${author.books}';`);
       }
 
+    });
+  },
+  deleteAuthor: function(id){
+    return knex('author')
+    .where('id',id)
+    .del()
+    .returning('id')
+    .then((id)=>{
+      return knex('book_author')
+      .where('author_id',id[0])
+      .del();
     });
   }
 };
