@@ -19,4 +19,9 @@ router.post('/',function(req,res,next){
   });
 });
 
+router.delete('/',function(req,res,next){
+  bookQueries.deleteBook(req.body.id);
+  res.json('Book Deleted');
+});
+
 module.exports = router;

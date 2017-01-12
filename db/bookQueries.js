@@ -29,5 +29,16 @@ module.exports = {
       }
 
     });
+  },
+  deleteBook: function(id){
+    return knex('book')
+    .where('id',id)
+    .del()
+    .returning('id')
+    .then((id)=>{
+      return knex('book_author')
+      .where('id',id)
+      .del();
+    });
   }
 };
