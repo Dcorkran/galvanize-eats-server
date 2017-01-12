@@ -27,7 +27,7 @@ router.delete('/',function(req,res,next){
 router.get('/:id',function(req,res,next){
   bookQueries.getOneBook(req.params.id)
   .then((data)=>{
-    res.json(data)
+    res.json(data);
   })
 });
 
