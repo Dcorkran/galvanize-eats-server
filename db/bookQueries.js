@@ -1,8 +1,22 @@
 const knex = require('./knex');
+const authorQueries = require('./authorQueries')
 
 module.exports = {
   getAllBooks: function(){
-    return knex('book');
+    return knex('book')
+    .then((books)=>{
+      let promises = books.map((book)=>{
+        book.author=[];
+        return authorQueries.getAuthorsByBook(book.id).then((author)=>{
+          for (var i = 0; i < author.length; i++) {
+            book.author[i] = author[i];
+          }
+        });
+      });
+      return Promise.all(promises).then(() => {
+        return books;
+      });
+    });
   },
   postBook: function(book){
     console.log('hitting2',book);
@@ -43,9 +57,20 @@ module.exports = {
   },
   getOneBook: function(id){
     return knex('book')
-    .innerJoin('book_author','book.id','book_author.id')
-    .innerJoin('author','book_author.id','author.id')
-    .where('book.id',id);
+    .where('id',id)
+    .then((books)=>{
+      let promises = books.map((book)=>{
+        book.author=[];
+        return authorQueries.getAuthorsByBook(book.id).then((author)=>{
+          for (var i = 0; i < author.length; i++) {
+            book.author[i] = author[i];
+          }
+        });
+      });
+      return Promise.all(promises).then(() => {
+        return books;
+      });
+    });
   },
   updateBook: function(id,body){
     return knex('book')

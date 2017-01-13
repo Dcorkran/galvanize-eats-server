@@ -55,5 +55,10 @@ module.exports = {
       'Biography': body.bio,
       'Portrait URL':body.img
     });
+  },
+  getAuthorsByBook: function(bookID){
+    return knex('author')
+    .innerJoin('book_author','author.id','book_author.author_id')
+    .where('book_author.book_id',bookID);
   }
 };
