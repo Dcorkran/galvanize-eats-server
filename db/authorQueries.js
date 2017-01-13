@@ -86,7 +86,6 @@ module.exports = {
     .where('book_author.book_id',bookID);
   },
   getBooksByAuthor: function(authorID){
-    console.log(authorID);
     return knex('book')
     .innerJoin('book_author','book.id','book_author.book_id')
     .where('book_author.author_id',authorID);

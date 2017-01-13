@@ -19,7 +19,6 @@ module.exports = {
     });
   },
   postBook: function(book){
-    console.log('hitting2',book);
     return knex('book')
     .insert({
       'Book Title':book.title,

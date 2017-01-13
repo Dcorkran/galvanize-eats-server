@@ -39,7 +39,6 @@ router.put('/:id',function(req,res,next){
 });
 
 router.get('/books/:id',function(req,res,next){
-  console.log('yo');
   authorQueries.getBooksByAuthor(req.params)
   .then((data)=>{
     res.json(data);
