@@ -1,5 +1,5 @@
 const knex = require('./knex');
-const authorQueries = require('./authorQueries')
+var authorQueries = require('./authorQueries');
 
 module.exports = {
   getAllBooks: function(){

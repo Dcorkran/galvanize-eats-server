@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var authorQueries = require('../db/authorQueries');
+var bookQueries = require('../db/bookQueries');
 
 router.get('/',function(req,res,next){
   authorQueries.getAuthors()
@@ -34,6 +35,14 @@ router.put('/:id',function(req,res,next){
   authorQueries.updateAuthor(req.params.id,req.body)
   .then(()=>{
     res.json('Book Updated');
+  });
+});
+
+router.get('/books/:id',function(req,res,next){
+  console.log('yo');
+  authorQueries.getBooksByAuthor(req.params)
+  .then((data)=>{
+    res.json(data);
   });
 });
 

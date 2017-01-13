@@ -3,6 +3,19 @@ const knex = require('./knex');
 module.exports = {
   getAuthors: function(){
     return knex('author')
+    .then((authors)=>{
+      let promises = authors.map((author)=>{
+        author.book=[];
+        return this.getBooksByAuthor(author.id).then((book)=>{
+          for (var i = 0; i < book.length; i++) {
+            author.book[i] = book[i];
+          }
+        });
+      });
+      return Promise.all(promises).then(() => {
+        return authors;
+      });
+    });
   },
   postAuthor: function(author){
     return knex('author')
@@ -42,9 +55,20 @@ module.exports = {
   },
   getOneAuthor: function(id){
     return knex('author')
-    .innerJoin('book_author','author.id','book_author.author_id')
-    .innerJoin('book','book_author.book_id','book.id')
-    .where('author.id',id);
+    .where('id',id)
+    .then((authors)=>{
+      let promises = authors.map((author)=>{
+        author.book=[];
+        return this.getBooksByAuthor(author.id).then((book)=>{
+          for (var i = 0; i < book.length; i++) {
+            author.book[i] = book[i];
+          }
+        });
+      });
+      return Promise.all(promises).then(() => {
+        return authors;
+      });
+    });
   },
   updateAuthor: function(id,body){
     return knex('author')
@@ -60,5 +84,11 @@ module.exports = {
     return knex('author')
     .innerJoin('book_author','author.id','book_author.author_id')
     .where('book_author.book_id',bookID);
+  },
+  getBooksByAuthor: function(authorID){
+    console.log(authorID);
+    return knex('book')
+    .innerJoin('book_author','book.id','book_author.book_id')
+    .where('book_author.author_id',authorID);
   }
 };
